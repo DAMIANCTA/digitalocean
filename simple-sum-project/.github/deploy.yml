@@ -1,27 +1,15 @@
-name: Deploy to GitHub Pages
+name: Deploy to DigitalOcean App Platform
 
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
-    types: [opened, synchronize]
 
 jobs:
-  lint-html:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Lint HTML
-        uses: Cyb3r-Jak3/html5validator-action@v7
-
   deploy:
-    needs: lint-html
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Trigger DigitalOcean App Platform Deployment
+        uses: digitalocean/app_action@v1.1.5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./simple-sum-project
+          app_name: ${{ secrets.DIGITALOCEAN_APP_NAME }}
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
